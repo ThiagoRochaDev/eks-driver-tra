@@ -8,6 +8,9 @@ import (
 	"github.com/driver-eks/nodegroup"
 )
 
+type State struct {
+}
+
 func main() {
 	Credenthials()
 
