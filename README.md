@@ -9,6 +9,7 @@ Run driver :
 run go main.go
 ```
 
+You can deploy clusters ,  Nodegroups and change scallingconfig at nodes and cluster
 
 
 
