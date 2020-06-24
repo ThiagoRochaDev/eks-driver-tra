@@ -24,7 +24,7 @@ func CreateCluster(States *State) {
 		Name: aws.String(States.ClusterName),
 		ResourcesVpcConfig: &eks.VpcConfigRequest{
 			SecurityGroupIds: []*string{
-				aws.String(States.SecurityGroupId), //"sg-0f99f150"
+				aws.String(States.SecurityGroupId),
 			},
 			SubnetIds: []*string{
 				aws.String("subnet-3419e54c"),
@@ -33,8 +33,7 @@ func CreateCluster(States *State) {
 				aws.String("subnet-fb4d0bd0"),
 			},
 		},
-		RoleArn: aws.String(States.RoleArn), //"arn:aws:iam::056738692191:role/eks_sdk_go_role"
-		//		Version: aws.String(States.Version), //"1.16"
+		RoleArn: aws.String(States.RoleArn),
 	}
 
 	result, err := eksclient.CreateCluster(clusterstate)

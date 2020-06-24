@@ -25,8 +25,8 @@ func CreateNodeGroup(state *StateNode) {
 	eksclient := eks.New(session.New())
 
 	nodegroupstate := &eks.CreateNodegroupInput{
-		ClusterName:   aws.String(state.ClusterName),   //"novoclust"
-		NodegroupName: aws.String(state.NodegroupName), //"tessteglobo"
+		ClusterName:   aws.String(state.ClusterName),
+		NodegroupName: aws.String(state.NodegroupName),
 
 		Subnets: []*string{
 			aws.String("subnet-3419e54c"),
@@ -35,7 +35,7 @@ func CreateNodeGroup(state *StateNode) {
 			aws.String("subnet-fb4d0bd0"),
 		},
 
-		NodeRole: aws.String(state.RoleArn), //"arn:aws:iam::056738692191:role/NodeInstanceRole"
+		NodeRole: aws.String(state.RoleArn),
 	}
 
 	result, err := eksclient.CreateNodegroup(nodegroupstate)
@@ -61,8 +61,7 @@ func CreateNodeGroup(state *StateNode) {
 				fmt.Println(aerr.Error())
 			}
 		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
+
 			fmt.Println(err.Error())
 		}
 		return
@@ -73,11 +72,6 @@ func CreateNodeGroup(state *StateNode) {
 }
 
 func UpdateNodeGroup() {
-
-	// session := session.New(&aws.Config{
-	// 	Region:      aws.String("us-west-2"),
-	// 	Credentials: credentials.NewEnvCredentials(),
-	// })
 
 	eksclient := eks.New(session.New())
 
@@ -120,8 +114,7 @@ func UpdateNodeGroup() {
 				fmt.Println(aerr.Error())
 			}
 		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
+
 			fmt.Println(err.Error())
 		}
 		return
