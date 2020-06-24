@@ -9,7 +9,13 @@ import (
 	"github.com/aws/aws-sdk-go/service/eks"
 )
 
-func CreateNodeGroup() {
+type StateNode struct {
+	ClusterName   string
+	NodegroupName string
+	RoleArn       string
+}
+
+func CreateNodeGroup(state *StateNode) {
 
 	// session := session.New(&aws.Config{
 	// 	Region:      aws.String("us-west-2"),
@@ -19,8 +25,8 @@ func CreateNodeGroup() {
 	eksclient := eks.New(session.New())
 
 	nodegroupstate := &eks.CreateNodegroupInput{
-		ClusterName:   aws.String("novoclust"),
-		NodegroupName: aws.String("tessteglobo"),
+		ClusterName:   aws.String(state.ClusterName),   //"novoclust"
+		NodegroupName: aws.String(state.NodegroupName), //"tessteglobo"
 
 		Subnets: []*string{
 			aws.String("subnet-3419e54c"),
@@ -29,7 +35,7 @@ func CreateNodeGroup() {
 			aws.String("subnet-fb4d0bd0"),
 		},
 
-		NodeRole: aws.String("arn:aws:iam::056738692191:role/NodeInstanceRole"),
+		NodeRole: aws.String(state.RoleArn), //"arn:aws:iam::056738692191:role/NodeInstanceRole"
 	}
 
 	result, err := eksclient.CreateNodegroup(nodegroupstate)

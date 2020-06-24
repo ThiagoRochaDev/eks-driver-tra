@@ -1,15 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 
 	"github.com/driver-eks/cluster"
 	"github.com/driver-eks/nodegroup"
 )
-
-type State struct {
-}
 
 func main() {
 	Credenthials()
@@ -21,8 +19,21 @@ func main() {
 		switch comando {
 		case 1:
 			fmt.Println("=== Creating Cluster Selected - Please wait..")
-			//statecluster := cluster.StateCluster()
-			cluster.CreateCluster()
+
+			in := bufio.NewReader(os.Stdin)
+			fmt.Println("Cluster name:")
+			clustername, _ := in.ReadString('\n')
+			fmt.Println("Security Group:")
+			securitygroup, _ := in.ReadString('\n')
+			fmt.Println("Role:")
+			role, _ := in.ReadString('\n')
+
+			state := &cluster.State{
+				ClusterName:     clustername,
+				SecurityGroupId: securitygroup,
+				RoleArn:         role,
+			}
+			cluster.CreateCluster(state)
 			os.Exit(1)
 		case 2:
 			fmt.Println("=== Updating Cluster Selected - Please wait..")
@@ -35,7 +46,21 @@ func main() {
 
 		case 4:
 			fmt.Println("=== Creating NodeGroup Selected - Please wait..")
-			nodegroup.CreateNodeGroup()
+			in := bufio.NewReader(os.Stdin)
+			fmt.Println("Cluster name:")
+			clustername, _ := in.ReadString('\n')
+			fmt.Println("Nodegroup name:")
+			nodegroupname, _ := in.ReadString('\n')
+			fmt.Println("Role:")
+			role, _ := in.ReadString('\n')
+
+			state := &nodegroup.StateNode{
+				ClusterName:   clustername,
+				NodegroupName: nodegroupname,
+				RoleArn:       role,
+			}
+
+			nodegroup.CreateNodeGroup(state)
 			os.Exit(1)
 		case 5:
 			fmt.Println("=== Updating NodeGroup Selected - Please wait..")

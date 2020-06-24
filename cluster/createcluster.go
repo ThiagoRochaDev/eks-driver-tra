@@ -9,19 +9,22 @@ import (
 	"github.com/aws/aws-sdk-go/service/eks"
 )
 
-func StateCluster() {
-
+type State struct {
+	ClusterName     string
+	SecurityGroupId string
+	RoleArn         string
+	Version         string
 }
 
-func CreateCluster() {
+func CreateCluster(States *State) {
 
 	eksclient := eks.New(session.New())
 
 	clusterstate := &eks.CreateClusterInput{
-		Name: aws.String("novamente"),
+		Name: aws.String(States.ClusterName),
 		ResourcesVpcConfig: &eks.VpcConfigRequest{
 			SecurityGroupIds: []*string{
-				aws.String("sg-0f99f150"),
+				aws.String(States.SecurityGroupId), //"sg-0f99f150"
 			},
 			SubnetIds: []*string{
 				aws.String("subnet-3419e54c"),
@@ -30,8 +33,8 @@ func CreateCluster() {
 				aws.String("subnet-fb4d0bd0"),
 			},
 		},
-		RoleArn: aws.String("arn:aws:iam::056738692191:role/eks_sdk_go_role"),
-		Version: aws.String("1.16"),
+		RoleArn: aws.String(States.RoleArn), //"arn:aws:iam::056738692191:role/eks_sdk_go_role"
+		//		Version: aws.String(States.Version), //"1.16"
 	}
 
 	result, err := eksclient.CreateCluster(clusterstate)
@@ -56,8 +59,7 @@ func CreateCluster() {
 				fmt.Println(aerr.Error())
 			}
 		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
+
 			fmt.Println(err.Error())
 		}
 		return
@@ -93,8 +95,7 @@ func ListClusters() {
 				fmt.Println(aerr.Error())
 			}
 		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
+
 			fmt.Println(err.Error())
 		}
 		return
